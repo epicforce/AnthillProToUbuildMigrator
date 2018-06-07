@@ -1,0 +1,81 @@
+JFrame(name=frame, title=frame.title, size=packed, defaultCloseOperation=exitOnClose):
+    - JPanel(name=cardpanel):
+        - JPanel(name=ahpBox, groupTitle=panel.ahpTitle):
+            - JButton(name=next1, text=button.next, onAction=[$validate,nextCard])
+            - JButton(name=cancel1, text=button.exit, onAction=[$confirm,cancel])
+            - MigLayout: |
+                  [pref]                         [grow,100]
+                  "label.ahpHost"                txtAhpHost
+                  "label.ahpPort"                txtAhpPort
+                  "label.ahpUser"                txtAhpUser
+                  "label.ahpPassword"            pwdAhpPassword
+                  "label.ahpKeystorePath"        txtAhpKeystorePath
+                  "label.ahpKeystorePassword"    pwdAhpKeystorePassword
+                  |cancel1+*,>next1
+        - JPanel(name=wfBox, groupTitle=panel.wfTitle):
+            - JButton(name=next2, text=button.next, onAction=[$validate,nextCard])
+            - JButton(name=cancel2, text=button.exit, onAction=[$confirm,cancel])
+            - JButton(name=prev2, text=button.prev, onAction=prevCard)
+            - JButton(name=doSearch, text=button.search, onAction=doSearch)
+            - JPanel(name=wfPickerGroup, visible=false, groupTitle=label.wfpicker):
+                - JScrollPane(name=wfPickerPane, vScrollBar=asNeeded, hScrollBar=asNeeded):
+                      JPanel(name=wfPickerBox, minimumSize=100x100)
+                - MigLayout: |
+                      [grow]
+                      wfPickerPane
+            - JPanel(name=wfPaneGroup, visible=false, groupTitle=label.wfpane):
+                - JScrollPane(name=wfPane, vScrollBar=asNeeded, hScrollBar=asNeeded):
+                      JPanel(name=wfPaneBox, minimumSize=100x100)
+                - MigLayout: |
+                      [grow]
+                      wfPane
+            - JLabel(name=loading, text=label.loading, visible=false)
+            - MigLayout: |
+                  [pref]            [grow,100]
+                  "label.search"    txtSearch
+                  loading           doSearch
+                  wfPickerGroup+*
+                  wfPaneGroup+*
+                  prev2+*,|cancel2,>next2
+        - JPanel(name=ucbBox, groupTitle=panel.ucbTitle):
+            - JButton(name=next3, text=button.next, onAction=[$validate,nextCard])
+            - JButton(name=cancel3, text=button.exit, onAction=[$confirm,cancel])
+            - JButton(name=prev3, text=button.prev, onAction=prevCard)
+            - MigLayout: |
+                  [pref]                 [grow,100]
+                  "label.ucbUrl"         txtUcbUrl
+                  "label.ucbUsername"    txtUcbUsername
+                  "label.ucbPassword"    pwdUcbPassword
+                  "label.concurrency"    txtConcurrency
+                  prev3+*,|cancel3,>next3
+        - JPanel(name=progressBox, groupTitle=panel.progressTitle):
+            - JButton(name=cancel4, text=button.exit, onAction=[$confirm,cancel])
+            - JPanel(name=progressPanel, visible=true):
+                - FlowLayout(alignment=left,hgap=0,vgap=0)
+            - MigLayout: |
+                  [grow]
+                  progressPanel
+                  |cancel4
+        - CardLayout(name=cards): [ahpBox, wfBox, ucbBox, progressBox]
+    - MigLayout: |
+          [grow]
+          cardpanel
+
+bind:
+    - this.ahpHost: txtAhpHost.text
+    - this.ahpPort: txtAhpPort.text
+    - this.ahpUser: txtAhpUser.text 
+    - this.ahpPassword: pwdAhpPassword.text
+    - this.ahpKeystorePath: txtAhpKeystorePath.text
+    - this.ahpKeystorePassword: pwdAhpKeystorePassword.text
+    - this.search: txtSearch.text
+    - this.ucbUrl: txtUcbUrl.text
+    - this.ucbUsername: txtUcbUsername.text
+    - this.ucbPassword: pwdUcbPassword.text
+    - txtConcurrency.text: this.concurrency
+
+validate:
+    - txtAhpHost.text: {mandatory: true, label: label.ahpHost}
+    - txtAhpPort.text: {mandatory: true, label: label.ahpPort, minValue: 1, maxValue: 65535}
+    - txtAhpUser.text: {mandatory: true, label: label.ahpUser}
+    - txtConcurrency.text: {mandatory: true, label: label.concurrency, minValue: 1, maxValue: 65535}
