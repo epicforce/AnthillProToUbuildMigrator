@@ -53,8 +53,8 @@ import com.urbancode.anthill3.domain.trigger.scheduled.ScheduledTrigger;
 import com.urbancode.anthill3.domain.workflow.JobIterationPlan;
 import com.urbancode.anthill3.domain.workflow.WorkflowDefinitionJobConfig;
 import com.urbancode.anthill3.domain.workflow.WorkflowProperty;
-import com.urbancode.commons.dag.TableDisplayableGraph;
-import com.urbancode.commons.dag.Vertex;
+import com.urbancode.commons.graph.TableDisplayableGraph;
+import com.urbancode.commons.graph.Vertex;
 import com.urbancode.commons.graph.Graph;;
 import com.urbancode.ubuild.client.Factories;
 import com.urbancode.ubuild.client.agent.AgentConfig;
@@ -1226,7 +1226,7 @@ public class UcbWorkflow extends AbstractWorkflow
         }
 
         // Create arcs
-        for(com.urbancode.commons.dag.Graph.Arc<WorkflowDefinitionJobConfig>
+        for(com.urbancode.commons.graph.Graph.Arc<WorkflowDefinitionJobConfig>
             arc : g.getArcSet()) {
             ucbWf.getGraph().addArc(
                     vMap.get(arc.getFrom().getData().getId()),

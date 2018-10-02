@@ -50,7 +50,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.EntityBuilder;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
 import net.epicforce.migrate.ahp.exception.MigrateException;
@@ -188,7 +188,7 @@ public class UcbClient extends HttpHelper
                 );
 
                 // Use the client to ship it
-                DefaultHttpClient client = getDefaultHttpClient();
+                CloseableHttpClient client = getDefaultHttpClient();
                 HttpResponse response = client.execute(postMethod);
 
                 // There is an inexplicably private 'isGoodResponseCode'
@@ -378,7 +378,7 @@ public class UcbClient extends HttpHelper
 
             try {
                 getMethod.setHeader("Referer", getUrl); // CSRF
-                DefaultHttpClient client = getDefaultHttpClient();
+                CloseableHttpClient client = getDefaultHttpClient();
                 HttpResponse response = client.execute(getMethod);
 
                 int responseCode = response.getStatusLine().getStatusCode();
